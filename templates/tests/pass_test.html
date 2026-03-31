@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Прохождение теста{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-3">{{ test.title }}</h2>
+        <p>{{ test.description }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% for question in questions %}
+                <div class="mb-4 p-3 border rounded">
+                    <h5>Вопрос {{ question.order }}</h5>
+                    <p>{{ question.text }}</p>
+
+                    {% for option in question.options.all %}
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="question_{{ question.id }}"
+                                id="option_{{ option.id }}"
+                                value="{{ option.id }}"
+                                required
+                            >
+                            <label class="form-check-label" for="option_{{ option.id }}">
+                                {{ option.text }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-success">Завершить тест</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Результат теста{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm p-4 text-center">
+        <h2 class="mb-4">Результат теста</h2>
+
+        <h4>{{ result.test.title }}</h4>
+        <p><strong>Студент:</strong> {{ result.student.full_name }}</p>
+        <p><strong>Общий балл:</strong> {{ result.total_score }}</p>
+
+        {% if result.level == 'green' %}
+            <div class="alert alert-success mt-4">
+                <h3>ЗЕЛЁНЫЙ УРОВЕНЬ</h3>
+            </div>
+        {% elif result.level == 'yellow' %}
+            <div class="alert alert-warning mt-4">
+                <h3>ЖЁЛТЫЙ УРОВЕНЬ</h3>
+            </div>
+        {% else %}
+            <div class="alert alert-danger mt-4">
+                <h3>КРАСНЫЙ УРОВЕНЬ</h3>
+            </div>
+        {% endif %}
+
+        <a href="{% url 'test_list' %}" class="btn btn-primary mt-3">Назад к тестам</a>
+    </div>
+</div>
+{% endblock %}

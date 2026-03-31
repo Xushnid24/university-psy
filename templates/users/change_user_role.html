@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Изменить роль{% endblock %}
+
+{% block content %}
+<div class="form-page-hero" data-aos="fade-up">
+    <h1>Изменение роли</h1>
+    <p class="mb-0">Пользователь: {{ target_user.full_name }} ({{ target_user.phone_number }})</p>
+</div>
+
+<div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
+    <div class="col-md-7">
+        <div class="card form-card">
+            <div class="card-body">
+                <h3 class="form-title">Новая роль</h3>
+                <p class="form-subtitle">
+                    Выберите новую роль для пользователя.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label class="form-section-label">{{ form.role.label }}</label>
+                        {{ form.role }}
+                        {{ form.role.errors }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary custom-btn">
+                        Сохранить роль
+                    </button>
+                    <a href="{% url 'user_list' %}" class="btn btn-secondary custom-btn">
+                        Назад
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

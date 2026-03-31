@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Панель студента{% endblock %}
+
+{% block content %}
+<div class="dashboard-hero mb-4" data-aos="fade-up">
+    <h1>Панель студента</h1>
+    <p>
+        Добро пожаловать, {{ user.full_name }}. Здесь вы можете проходить психологические тесты
+        и пользоваться возможностями платформы.
+    </p>
+    <div class="dashboard-pill">
+        <i class="bi bi-person-badge-fill"></i>
+        <span>{{ user.get_role_display }}</span>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="row g-4">
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card dashboard-grid-card">
+                    <div class="card-body">
+                        <div class="dashboard-icon-box dashboard-icon-blue">
+                            <i class="bi bi-ui-checks-grid"></i>
+                        </div>
+                        <h4 class="dashboard-card-title">Доступные тесты</h4>
+                        <p class="dashboard-card-text">
+                            Перейдите к списку тестов и начните прохождение в удобном интерфейсе.
+                        </p>
+                        <a href="{% url 'test_list' %}" class="btn btn-primary custom-btn">
+                            Перейти к тестам
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card dashboard-grid-card">
+                    <div class="card-body">
+                        <div class="dashboard-icon-box dashboard-icon-purple">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <h4 class="dashboard-card-title">Конфиденциальность</h4>
+                        <p class="dashboard-card-text">
+                            Ваши результаты не отображаются вам напрямую и доступны только психологу и администратору.
+                        </p>
+                        <button class="btn btn-outline-secondary custom-btn" disabled>
+                            Доступ ограничен
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" data-aos="fade-up" data-aos-delay="300">
+                <div class="card dashboard-grid-card">
+                    <div class="card-body">
+                        <div class="dashboard-icon-box dashboard-icon-green">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <h4 class="dashboard-card-title">Как это работает</h4>
+                        <p class="dashboard-card-text mb-2">
+                            Вы выбираете тест, проходите его один раз, а система автоматически сохраняет ответы.
+                            После этого психолог и администратор могут просмотреть результат и статистику.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" data-aos="fade-left" data-aos-delay="200">
+        <div class="card quick-info-card h-100">
+            <div class="card-body">
+                <h4 class="dashboard-card-title mb-3">Информация</h4>
+                <ul class="quick-info-list">
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Прохождение доступных тестов</li>
+                    <li><i class="bi bi-lock-fill text-primary me-2"></i>Без доступа к результатам</li>
+                    <li><i class="bi bi-arrow-repeat text-warning me-2"></i>Повторное прохождение запрещено</li>
+                    <li><i class="bi bi-person-workspace text-dark me-2"></i>Анализ делает психолог</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

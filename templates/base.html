@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}University Psy{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home' %}">
+            <i class="bi bi-heart-pulse-fill"></i>
+            <span>University Psy</span>
+        </a>
+
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse mt-3 mt-lg-0" id="mainNavbar">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="bi bi-house-door me-1"></i>Главная
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <i class="bi bi-grid-1x2-fill me-1"></i>Личный кабинет
+                        </a>
+                    </li>
+                    <li class="nav-item d-none d-lg-block">
+                        <span class="nav-user-chip">
+                            <i class="bi bi-person-circle me-1"></i>
+                            {{ user.full_name }} | {{ user.get_role_display }}
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="btn btn-warning custom-btn btn-sm mt-2 mt-lg-0">
+                            <i class="bi bi-box-arrow-right me-1"></i>Выйти
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="btn btn-light custom-btn btn-sm mt-2 mt-lg-0">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Вход
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'register' %}" class="btn btn-warning custom-btn btn-sm mt-2 mt-lg-0">
+                            <i class="bi bi-person-plus-fill me-1"></i>Регистрация
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container main-wrapper">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info shadow-sm border-0 rounded-4 fade-up">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</div>
+
+<footer class="site-footer mt-5">
+    <div class="container">
+        <div class="footer-top">
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-5">
+                    <div class="footer-brand d-flex align-items-center gap-2 mb-3">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                        <span>University Psy</span>
+                    </div>
+                    <p class="footer-text">
+                        Платформа для психологического тестирования студентов,
+                        управления тестами и анализа результатов в современном интерфейсе.
+                    </p>
+                </div>
+
+                <div class="col-md-3 col-lg-2">
+                    <h5 class="footer-title">Навигация</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Главная</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'dashboard' %}">Личный кабинет</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Вход</a></li>
+                            <li><a href="{% url 'register' %}">Регистрация</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-lg-3">
+                    <h5 class="footer-title">Возможности</h5>
+                    <ul class="footer-links">
+                        <li>Психологические тесты</li>
+                        <li>Роли пользователей</li>
+                        <li>Аналитика результатов</li>
+                        <li>Диаграммы и статистика</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-5 col-lg-2">
+                    <h5 class="footer-title">Контакты</h5>
+                    <div class="footer-socials">
+                        <span><i class="bi bi-envelope-fill me-2"></i>support</span>
+                        <span><i class="bi bi-shield-lock-fill me-2"></i>secure access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 University Psy. Все права защищены.</span>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+</script>
+</body>
+</html>

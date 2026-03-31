@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Список тестов{% endblock %}
+
+{% block content %}
+<div class="hero-box mb-4" data-aos="fade-up">
+    <h1>Психологические тесты</h1>
+    <p class="mb-0 fs-5">
+        Просматривайте, создавайте, редактируйте и проходите тесты в удобном интерфейсе.
+    </p>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-up" data-aos-delay="100">
+    <h2 class="section-title mb-0">Список тестов</h2>
+
+    {% if user.role == 'psychologist' or user.role == 'admin' %}
+        <a href="{% url 'create_test' %}" class="btn btn-primary custom-btn">Создать тест</a>
+    {% endif %}
+</div>
+
+{% if tests %}
+    <div class="row">
+        {% for test in tests %}
+            <div class="col-md-12 mb-4" data-aos="fade-up" data-aos-delay="120">
+                <div class="card test-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                            <div>
+                                <h3 class="test-title">{{ test.title }}</h3>
+                                <p class="test-description mb-2">
+                                    {{ test.description|default:"Нет описания" }}
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Автор:</strong> {{ test.created_by.full_name }}
+                                </p>
+                                <p class="mb-0">
+                                    <strong>Статус:</strong>
+                                    {% if test.is_active %}
+                                        <span class="badge-soft-success">Активен</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Неактивен</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                {% if user.role == 'psychologist' or user.role == 'admin' %}
+                                    <a href="{% url 'add_question' test.id %}" class="btn btn-outline-success btn-sm custom-btn">
+                                        Добавить вопрос
+                                    </a>
+                                    <a href="{% url 'edit_test' test.id %}" class="btn btn-outline-warning btn-sm custom-btn">
+                                        Редактировать
+                                    </a>
+                                    <a href="{% url 'delete_test' test.id %}" class="btn btn-outline-danger btn-sm custom-btn">
+                                        Удалить
+                                    </a>
+                                {% endif %}
+
+                                {% if user.role == 'student' %}
+                                    {% if test.id in passed_test_ids %}
+                                        <span class="badge bg-secondary p-2">Тест уже пройден</span>
+                                    {% else %}
+                                        <a href="{% url 'pass_test' test.id %}" class="btn btn-outline-primary btn-sm custom-btn">
+                                            Пройти тест
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="section-title">Вопросы</h5>
+
+                        {% if test.questions.all %}
+                            {% for question in test.questions.all %}
+                                <div class="question-box mb-3">
+                                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                        <div>
+                                            <p class="mb-2">
+                                                <strong>Вопрос {{ question.order }}:</strong> {{ question.text }}
+                                            </p>
+                                        </div>
+
+                                        {% if user.role == 'psychologist' or user.role == 'admin' %}
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <a href="{% url 'edit_question' question.id %}" class="btn btn-outline-warning btn-sm custom-btn">
+                                                    Редактировать вопрос
+                                                </a>
+                                                <a href="{% url 'delete_question' question.id %}" class="btn btn-outline-danger btn-sm custom-btn">
+                                                    Удалить вопрос
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if user.role == 'psychologist' or user.role == 'admin' %}
+                                        <div class="mt-2">
+                                            <a href="{% url 'add_answer_option' question.id %}" class="btn btn-outline-primary btn-sm custom-btn">
+                                                Добавить ответ
+                                            </a>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="mt-3">
+                                        <strong>Варианты ответов:</strong>
+                                        {% if question.options.all %}
+                                            <ul class="mt-2 option-list">
+                                                {% for option in question.options.all %}
+                                                    <li>
+                                                        {{ option.text }} —
+                                                        <strong>{{ option.score }} балл(ов)</strong>
+
+                                                        {% if user.role == 'psychologist' or user.role == 'admin' %}
+                                                            <a href="{% url 'edit_answer_option' option.id %}" class="btn btn-outline-warning btn-sm ms-2 custom-btn">
+                                                                Редактировать
+                                                            </a>
+                                                            <a href="{% url 'delete_answer_option' option.id %}" class="btn btn-outline-danger btn-sm custom-btn">
+                                                                Удалить
+                                                            </a>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <p class="text-muted mt-2">Пока нет вариантов ответа.</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">Пока вопросов нет.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info shadow-sm rounded-4">
+        Пока тестов нет.
+    </div>
+{% endif %}
+{% endblock %}

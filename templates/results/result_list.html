@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Результаты тестов{% endblock %}
+
+{% block content %}
+<div class="hero-box mb-4" data-aos="fade-up">
+    <h1>Результаты тестов</h1>
+    <p class="mb-0 fs-5">
+        Аналитика прохождений, уровней и результатов студентов.
+    </p>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-4" data-aos="fade-up" data-aos-delay="100">
+    <h2 class="result-page-title mb-0">Общая статистика</h2>
+    <a href="{% url 'test_list' %}" class="btn btn-secondary custom-btn">К тестам</a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="100">
+        <div class="stats-card">
+            <h5>Всего результатов</h5>
+            <div class="stats-number">{{ total_results }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="200">
+        <div class="stats-card soft-success-box">
+            <h5>Зелёных</h5>
+            <div class="stats-number">{{ green_count }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="300">
+        <div class="stats-card soft-warning-box">
+            <h5>Жёлтых</h5>
+            <div class="stats-number">{{ yellow_count }}</div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3" data-aos="zoom-in" data-aos-delay="400">
+        <div class="stats-card soft-danger-box">
+            <h5>Красных</h5>
+            <div class="stats-number">{{ red_count }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="120">
+        <div class="chart-card">
+            <h4 class="chart-title">Круговая диаграмма результатов</h4>
+            <div class="chart-wrapper">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="180">
+        <div class="chart-card">
+            <h4 class="chart-title">Столбчатая диаграмма результатов</h4>
+            <div class="chart-wrapper">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if results %}
+    <div class="result-table-wrapper bg-white" data-aos="fade-up" data-aos-delay="150">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Студент</th>
+                        <th>Тест</th>
+                        <th>Баллы</th>
+                        <th>Уровень</th>
+                        <th>Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ result.student.full_name }}</td>
+                            <td>{{ result.test.title }}</td>
+                            <td><strong>{{ result.total_score }}</strong></td>
+                            <td>
+                                {% if result.level == 'green' %}
+                                    <span class="badge-soft-success">Зелёный</span>
+                                {% elif result.level == 'yellow' %}
+                                    <span class="badge-soft-warning">Жёлтый</span>
+                                {% else %}
+                                    <span class="badge-soft-danger">Красный</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ result.created_at|date:"d.m.Y H:i" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-info shadow-sm rounded-4" data-aos="fade-up">
+        Пока результатов нет.
+    </div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const greenCount = {{ green_count }};
+    const yellowCount = {{ yellow_count }};
+    const redCount = {{ red_count }};
+
+    const pieCtx = document.getElementById('pieChart');
+    const barCtx = document.getElementById('barChart');
+
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Зелёный', 'Жёлтый', 'Красный'],
+            datasets: [{
+                data: [greenCount, yellowCount, redCount],
+                backgroundColor: [
+                    '#22c55e',
+                    '#facc15',
+                    '#ef4444'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                animateRotate: true,
+                animateScale: true
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Зелёный', 'Жёлтый', 'Красный'],
+            datasets: [{
+                label: 'Количество результатов',
+                data: [greenCount, yellowCount, redCount],
+                backgroundColor: [
+                    '#22c55e',
+                    '#facc15',
+                    '#ef4444'
+                ],
+                borderRadius: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 1400
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

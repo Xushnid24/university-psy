@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper" data-aos="zoom-in">
+    <div class="col-md-5">
+        <div class="card form-card">
+            <div class="card-body">
+                <h2 class="form-title text-center">Вход</h2>
+                <p class="form-subtitle text-center">
+                    Войдите в систему University Psy
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger rounded-4">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-section-label">{{ form.phone_number.label }}</label>
+                        {{ form.phone_number }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-section-label">{{ form.password.label }}</label>
+                        {{ form.password }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary custom-btn w-100">
+                        Войти
+                    </button>
+                </form>
+
+                <p class="mt-4 text-center text-muted">
+                    Нет аккаунта?
+                    <a href="{% url 'register' %}" class="fw-bold text-decoration-none">Зарегистрироваться</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

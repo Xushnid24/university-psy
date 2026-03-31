@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}University Psy{% endblock %}
+
+{% block content %}
+<section class="landing-hero">
+    <div class="row align-items-center">
+        <div class="col-lg-6 mb-4" data-aos="fade-right">
+            <span class="mini-badge">
+                <i class="bi bi-mortarboard-fill me-1"></i>
+                Психологическая платформа университета
+            </span>
+
+            <h1 class="landing-title">
+                Современная система
+                <span class="gradient-text">психологических тестов</span>
+                для студентов и специалистов
+            </h1>
+
+            <p class="landing-subtitle">
+                University Psy помогает проводить психологические тестирования,
+                управлять вопросами и ответами, анализировать результаты и
+                удобно работать с данными студентов в одном месте.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary custom-btn px-4">
+                        <i class="bi bi-grid-1x2-fill me-1"></i>
+                        Личный кабинет
+                    </a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-primary custom-btn px-4">
+                        <i class="bi bi-person-plus-fill me-1"></i>
+                        Начать сейчас
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-dark custom-btn px-4">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>
+                        Войти
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-lg-6" data-aos="fade-left">
+            <div class="hero-visual">
+                <h3 class="mb-3">Что умеет система?</h3>
+                <ul class="mb-0 fs-5">
+                    <li class="mb-2">Создание психологических тестов</li>
+                    <li class="mb-2">Распределение ролей пользователей</li>
+                    <li class="mb-2">Прохождение тестов студентами</li>
+                    <li class="mb-2">Автоматический подсчёт уровней</li>
+                    <li class="mb-2">Статистика и аналитика результатов</li>
+                    <li class="mb-0">Безопасный доступ по ролям</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-space">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <span class="mini-badge">
+            <i class="bi bi-star-fill me-1"></i>
+            Преимущества
+        </span>
+        <h2 class="section-title">Почему University Psy удобен</h2>
+        <p class="text-muted fs-5">
+            Система объединяет тестирование, управление доступом и аналитику в одном интерфейсе.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="card feature-card">
+                <div class="card-body">
+                    <div class="feature-icon icon-blue">
+                        <i class="bi bi-ui-checks-grid"></i>
+                    </div>
+                    <h4 class="section-title">Удобное тестирование</h4>
+                    <p class="mb-0 text-muted">
+                        Студенты проходят тесты в понятном интерфейсе без лишней сложности.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="card feature-card">
+                <div class="card-body">
+                    <div class="feature-icon icon-purple">
+                        <i class="bi bi-sliders2"></i>
+                    </div>
+                    <h4 class="section-title">Гибкое управление</h4>
+                    <p class="mb-0 text-muted">
+                        Психолог и администратор могут создавать, изменять и удалять тесты.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="card feature-card">
+                <div class="card-body">
+                    <div class="feature-icon icon-green">
+                        <i class="bi bi-calculator-fill"></i>
+                    </div>
+                    <h4 class="section-title">Автоматическая оценка</h4>
+                    <p class="mb-0 text-muted">
+                        Баллы автоматически рассчитываются и формируют итоговый уровень.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="card feature-card">
+                <div class="card-body">
+                    <div class="feature-icon icon-red">
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                    </div>
+                    <h4 class="section-title">Аналитика</h4>
+                    <p class="mb-0 text-muted">
+                        Специалисты видят статистику, диаграммы и результаты прохождений.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-space">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <span class="mini-badge">
+            <i class="bi bi-people-fill me-1"></i>
+            Роли в системе
+        </span>
+        <h2 class="section-title">Кто работает в платформе</h2>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="card role-card">
+                <div class="card-body">
+                    <h3 class="section-title">Студент</h3>
+                    <p class="text-muted">
+                        Проходит доступные тесты и взаимодействует с системой только в пределах своей роли.
+                    </p>
+                    <ul class="text-muted mb-0">
+                        <li>Просмотр тестов</li>
+                        <li>Прохождение тестирования</li>
+                        <li>Без доступа к результатам</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card role-card">
+                <div class="card-body">
+                    <h3 class="section-title">Психолог</h3>
+                    <p class="text-muted">
+                        Создаёт тесты, управляет вопросами и ответами, анализирует результаты студентов.
+                    </p>
+                    <ul class="text-muted mb-0">
+                        <li>Создание тестов</li>
+                        <li>Редактирование структуры</li>
+                        <li>Просмотр результатов</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="card role-card">
+                <div class="card-body">
+                    <h3 class="section-title">Администратор</h3>
+                    <p class="text-muted">
+                        Управляет всей системой, тестами, пользователями и общими результатами.
+                    </p>
+                    <ul class="text-muted mb-0">
+                        <li>Полный доступ</li>
+                        <li>Контроль системы</li>
+                        <li>Общая аналитика</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-space mb-4" data-aos="zoom-in">
+    <div class="cta-box text-center">
+        {% if user.is_authenticated %}
+            <h2 class="mb-3">Вы уже вошли в систему</h2>
+            <p class="mb-4 fs-5">
+                Перейдите в личный кабинет, чтобы продолжить работу.
+            </p>
+
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                <a href="{% url 'dashboard' %}" class="btn btn-warning custom-btn px-4">
+                    <i class="bi bi-grid-1x2-fill me-1"></i>
+                    Личный кабинет
+                </a>
+                <a href="{% url 'logout' %}" class="btn btn-light custom-btn px-4">
+                    <i class="bi bi-box-arrow-right me-1"></i>
+                    Выйти
+                </a>
+            </div>
+        {% else %}
+            <h2 class="mb-3">Готов начать работу с системой?</h2>
+            <p class="mb-4 fs-5">
+                Создай аккаунт или войди в систему и начни пользоваться University Psy уже сейчас.
+            </p>
+
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                <a href="{% url 'register' %}" class="btn btn-warning custom-btn px-4">
+                    <i class="bi bi-person-plus-fill me-1"></i>
+                    Регистрация
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-light custom-btn px-4">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                    Войти
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Создать тест{% endblock %}
+
+{% block content %}
+<div class="form-page-hero" data-aos="fade-up">
+    <h1>Создание теста</h1>
+    <p class="mb-0">Создайте новый психологический тест для студентов.</p>
+</div>
+
+<div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
+    <div class="col-md-8">
+        <div class="card form-card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-section-label">{{ form.title.label }}</label>
+                        {{ form.title }}
+                        {{ form.title.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-section-label">{{ form.description.label }}</label>
+                        {{ form.description }}
+                        {{ form.description.errors }}
+                    </div>
+
+                    <div class="form-check mb-4">
+                        {{ form.is_active }}
+                        <label class="form-check-label ms-2">{{ form.is_active.label }}</label>
+                        {{ form.is_active.errors }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success custom-btn">Создать тест</button>
+                    <a href="{% url 'test_list' %}" class="btn btn-secondary custom-btn">Назад</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

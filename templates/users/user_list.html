@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+<div class="form-page-hero" data-aos="fade-up">
+    <h1>Пользователи системы</h1>
+    <p class="mb-0">
+        Поиск, просмотр и управление пользователями платформы.
+    </p>
+</div>
+
+<div class="card form-card mb-4" data-aos="fade-up" data-aos-delay="100">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-10">
+                <label class="form-section-label">Поиск</label>
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ query }}"
+                    class="form-control"
+                    placeholder="Введите имя, номер телефона или роль"
+                >
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary custom-btn w-100">
+                    Искать
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card form-card" data-aos="fade-up" data-aos-delay="150">
+    <div class="card-body">
+        {% if users %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Имя</th>
+                            <th>Телефон</th>
+                            <th>Роль</th>
+                            <th>Статус</th>
+                            {% if request.user.role == 'admin' %}
+                                <th>Действия</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user_obj in users %}
+                            <tr>
+                                <td>{{ user_obj.id }}</td>
+                                <td>{{ user_obj.full_name }}</td>
+                                <td>{{ user_obj.phone_number }}</td>
+                                <td>{{ user_obj.get_role_display }}</td>
+                                <td>
+                                    {% if user_obj.is_active %}
+                                        <span class="badge bg-success">Активен</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Отключён</span>
+                                    {% endif %}
+                                </td>
+
+                                {% if request.user.role == 'admin' %}
+                                    <td class="d-flex flex-wrap gap-2">
+                                        <a href="{% url 'change_user_role' user_obj.id %}" class="btn btn-outline-primary btn-sm custom-btn">
+                                            Изменить роль
+                                        </a>
+
+                                        <a href="{% url 'reset_user_password' user_obj.id %}" class="btn btn-outline-warning btn-sm custom-btn">
+                                            Сбросить пароль
+                                        </a>
+
+                                        {% if user_obj != request.user %}
+                                            {% if user_obj.is_active %}
+                                                <a href="{% url 'toggle_user_active' user_obj.id %}" class="btn btn-outline-danger btn-sm custom-btn">
+                                                    Отключить
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'toggle_user_active' user_obj.id %}" class="btn btn-outline-success btn-sm custom-btn">
+                                                    Включить
+                                                </a>
+                                            {% endif %}
+                                        {% else %}
+                                            <button class="btn btn-outline-secondary btn-sm custom-btn" disabled>
+                                                Свой аккаунт
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info rounded-4">
+                Пользователи не найдены.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

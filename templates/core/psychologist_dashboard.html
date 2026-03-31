@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Кабинет психолога{% endblock %}
+
+{% block content %}
+<div class="dashboard-hero mb-4" data-aos="fade-up">
+    <h1>Кабинет психолога</h1>
+    <p>
+        Управляйте тестами, вопросами, вариантами ответов и анализируйте результаты студентов.
+    </p>
+    <div class="dashboard-pill">
+        <i class="bi bi-clipboard2-pulse-fill"></i>
+        <span>{{ user.get_role_display }}</span>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="row g-4">
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card dashboard-grid-card">
+                    <div class="card-body">
+                        <div class="dashboard-icon-box dashboard-icon-green">
+                            <i class="bi bi-file-earmark-plus-fill"></i>
+                        </div>
+                        <h4 class="dashboard-card-title">Создать тест</h4>
+                        <p class="dashboard-card-text">
+                            Добавляйте новые психологические тесты и формируйте структуру оценивания.
+                        </p>
+                        <a href="{% url 'create_test' %}" class="btn btn-success custom-btn">
+                            Создать тест
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card dashboard-grid-card">
+                    <div class="card-body">
+                        <div class="dashboard-icon-box dashboard-icon-blue">
+                            <i class="bi bi-card-checklist"></i>
+                        </div>
+                        <h4 class="dashboard-card-title">Список тестов</h4>
+                        <p class="dashboard-card-text">
+                            Просматривайте, редактируйте и удаляйте тесты, вопросы и варианты ответов.
+                        </p>
+                        <a href="{% url 'test_list' %}" class="btn btn-primary custom-btn">
+                            Открыть список
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card dashboard-grid-card">
+                    <div class="card-body">
+                        <div class="dashboard-icon-box dashboard-icon-orange">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                        </div>
+                        <h4 class="dashboard-card-title">Результаты и статистика</h4>
+                        <p class="dashboard-card-text">
+                            Отслеживайте прохождения тестов, уровни green / yellow / red и общую аналитику.
+                        </p>
+                        <a href="{% url 'result_list' %}" class="btn btn-warning custom-btn">
+                            Смотреть результаты
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card dashboard-grid-card">
+                    <div class="card-body">
+                        <div class="dashboard-icon-box dashboard-icon-purple">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h4 class="dashboard-card-title">Пользователи</h4>
+                        <p class="dashboard-card-text">
+                            Ищите студентов и других пользователей по имени, номеру телефона и роли.
+                        </p>
+                        <a href="{% url 'user_list' %}" class="btn btn-info custom-btn">
+                            Открыть пользователей
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" data-aos="fade-left" data-aos-delay="200">
+        <div class="card quick-info-card h-100">
+            <div class="card-body">
+                <h4 class="dashboard-card-title mb-3">Ваши возможности</h4>
+                <ul class="quick-info-list">
+                    <li><i class="bi bi-plus-circle-fill text-success me-2"></i>Создание тестов</li>
+                    <li><i class="bi bi-pencil-square text-warning me-2"></i>Редактирование структуры</li>
+                    <li><i class="bi bi-trash-fill text-danger me-2"></i>Удаление тестов и вопросов</li>
+                    <li><i class="bi bi-graph-up-arrow text-primary me-2"></i>Просмотр аналитики</li>
+                    <li><i class="bi bi-search text-info me-2"></i>Поиск пользователей</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
